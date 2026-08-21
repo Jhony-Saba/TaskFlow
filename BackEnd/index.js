@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv =require("dotenv").config();
+const erroHandler =require("./middleware/erroHandler")
 
 
 
@@ -10,6 +11,7 @@ app.use(express.json());
 
 app.use("/user",require("./routes/userRoute"))
 app.use("/task",require("./routes/taskRoute"))
+app.use(erroHandler)
 
 
 

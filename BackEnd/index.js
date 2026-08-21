@@ -9,7 +9,7 @@ app.use(express.json());
 
 
 app.use("/user",require("./routes/userRoute"))
-
+app.use("/task",require("./routes/taskRoute"))
 
 
 

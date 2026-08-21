@@ -8,30 +8,26 @@ const router =express.Router();
 router.route("/").get((req, res) => {
 
 
- res.send("get users ")
+res.status(200).json({ message: `Get users` })
 })
 
 router.route("/").post((req, res) => {
 
 
- res.send("Create user")
+ res.status(200).json({ message: `Add user` })
 })
 
-router.route("/").put((req, res) => {
+router.route("/:id").put((req, res) => {
 
-
- res.send("Put user")
-})
-router.route("/").patch((req, res) => {
-
-
- res.send("patch user")
-})
-router.route("/").delete((req, res) => {
-
-
- res.send("Delete user")
+     
+ res.status(200).json({ message: `update user ${req.params.id}` })
 })
 
+router.route("/:id").delete((req, res) => {
 
+
+res.status(200).json({ message: `delete user ${req.params.id}` })
+})
+
+ 
 module.exports =router

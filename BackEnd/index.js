@@ -1,6 +1,14 @@
 const express = require("express");
-const dotenv =require("dotenv").config();
+require("dotenv").config();
 const erroHandler =require("./middleware/erroHandler")
+const db =require("./config/db")
+
+const mongoose = require('mongoose');
+const dns = require("node:dns/promises");
+const connectDB = require("./config/db");
+dns.setServers(["1.1.1.1", "1.0.0.1"]);
+
+// const mongoose =require("mongoose");
 
 
 
@@ -14,9 +22,12 @@ app.use("/task", require("./routes/taskRoute"))
 app.use(erroHandler);
 
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+const run =async()=>{
+     if( await connectDB()==1)
+     await app.listen(PORT,()=> {console.log("server is running")})
+      else console.log("erro bro")
+}
+run();
 
 
 

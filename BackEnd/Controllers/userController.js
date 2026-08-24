@@ -1,31 +1,69 @@
-const asyncHandler =require("express-async-handler");
+const asyncHandler = require("express-async-handler");
+const User = require("../models/userModel")
 
 
 
-const getUsers =asyncHandler(async(req, res) => {
-res.status(200).json({ message: `Get users ` })
-})
-
-const getUser =asyncHandler(async(req, res) => {
-let id =req.params.id;
-
-res.status(200).json({ message: `Get user ${id}` })
-})
-
-const postUser=asyncHandler(async(req, res) => {
-    const {username,userid,password}=req.body;
-    if(!username |!userid |!password)
- res.status(400).json({ message: `Add user` })
-res.status(200).json(req.body)
-})
-const putUser =asyncHandler(async(req, res) => {
- res.status(200).json({ message: `update user ${req.params.id}` })
-})
-
-const deleteUser=asyncHandler(async(req, res) => {
-res.status(200).json({ message: `delete user ${req.params.id}` })
-})
 
 
+const getUsers = asyncHandler(async (req, res) => {
 
-module.exports= {getUsers,getUser,postUser,putUser,deleteUser}
+  const Users = await User.find()
+  res.status(200).json({ message: `Get users ` ,Users});
+});
+
+const getUser = asyncHandler(async (req, res) => {
+  const user = await User.findOne({ userid: req.params.userid }).select("-password");
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  res.status(200).json(user);
+});
+
+const postUser = asyncHandler(async (req, res) => {
+  const { username, userid, password, description } = req.body;
+  if (!username || !userid || !password) {
+    res.status(400);
+    throw new Error("Missing body");
+  }
+  const user = await User.create({ username, userid, password, description });
+
+  res.status(201).json(user);
+});
+
+const putUser = asyncHandler(async (req, res) => {
+  const updates = {};
+  const allowedFields = ["username", "description"];
+
+  for (const field of allowedFields) {
+    if (req.body[field] !== undefined) {
+      updates[field] = req.body[field];
+    }
+  }
+
+  if (Object.keys(updates).length === 0) {
+    res.status(400);
+    throw new Error("Provide username or description to update");
+  }
+
+  const user = await User.findOneAndUpdate(
+    { userid: req.params.userid },
+    updates,
+    { new: true, runValidators: true }
+  ).select("-password");
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  res.status(200).json(user);
+});
+
+const deleteUser = asyncHandler(async (req, res) => {
+  res.status(200).json({ message: `delete user ${req.params.id}` });
+});
+
+module.exports = { getUsers, getUser, postUser, putUser, deleteUser };

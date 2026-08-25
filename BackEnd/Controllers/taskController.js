@@ -18,13 +18,13 @@ const getTask = asyncHandler(async (req, res) => {
 });
 
 const postTask = asyncHandler(async (req, res) => {
-   const{tasktittle ,taskid ,taskdescription ,status} = req.body;
+   const{tittle ,projectId ,context ,status} = req.body;
   
-   if (   !taskbodytasktittle || !taskid || !taskdescription || !status) {
+   if (   !tittle || !projectId || !context || !status) {
     res.status(400);
     throw new Error("Missing body");
   }
-  const createTask =await task.create({tasktittle,taskid,taskdescription,status})
+  const createTask =await task.create({tittle,projectId,context,status})
   res.status(200).json(createTask);
 });
 

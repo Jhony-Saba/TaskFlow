@@ -1,29 +1,14 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose');
 
 
-const userSchema = mongoose.Schema({
-  username:{
-    type:String,
-    required:[true,"Plaese enter the user name"],
-  }
-,
- userid:{
-    type:String,
-    required:[true,"Plaese enter the user id"],
-    unique:true,
-    
-  },
-   password:{
-    type:String,
-    required:[true,"Plaese enter the user password"],
-  },
-  description:{
-    type:String,
-    default:"",
-  }
-})
+const userSchema = new mongoose.Schema({
+  userid: { type: mongoose.Schema.Types.ObjectId ,default: this._id}, // will mirror _id
+  username: { type: String, required: true },
+  password: { type: String, required: true },
+  role: { type: String, enum: ['admin', 'customer'], required: true }
+});
 
-module.exports = mongoose.model("user",userSchema);
+module.exports = mongoose.model('User', userSchema);
 
 
 

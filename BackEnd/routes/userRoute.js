@@ -6,8 +6,9 @@ const user =require("../Controllers/userController")
 
 
 
-router.route("/").get(user.getUsers).post(user.postUser)
-router.route("/:userid").get(user.getUser).put(user.putUser).delete(user.deleteUser)
+router.route("/current").get(user.CurrentUser)
+router.route("/register").post(user.Register)
+router.route("/Login").post(user.Login)
 
 
 

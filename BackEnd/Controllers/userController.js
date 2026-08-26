@@ -1,17 +1,10 @@
 const asyncHandler = require("express-async-handler");
+const bcrypt = require("../node_modules/bcrypt");
+
 const User = require("../models/userModel")
 
 
-
-
-
-const getUsers = asyncHandler(async (req, res) => {
-
-  const Users = await User.find()
-  res.status(200).json({ message: `Get users ` ,Users});
-});
-
-const getUser = asyncHandler(async (req, res) => {
+const CurrentUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ userid: req.params.userid }).select("-password");
 
   if (!user) {
@@ -22,65 +15,42 @@ const getUser = asyncHandler(async (req, res) => {
   res.status(200).json(user);
 });
 
-// const postUser = asyncHandler(async (req, res) => {
-//   const { username,  password, role} = req.body;
-//   if (!username || !password ||!role) {
-//     res.status(400);
-//     throw new Error("Missing body");
-//   }
-//   const user = await User.create({ username, password, role });
 
-//   res.status(201).json(user);
-// });
-const postUser = asyncHandler(async (req, res) => {
-  const { username, password, role } = req.body;
-  if (!username || !password || !role) {
+const Register = asyncHandler(async (req, res) => {
+  const { username, password,email, role } = req.body;
+  if (!username || !password  ||!email || !role) {
     res.status(400);
     throw new Error("Missing body");
   }
 
+
+
+  // Check if a user with the same username OR email exists
+const userAvailable = await User.findOne({email});
+if(userAvailable ){
+res.status(401);
+throw new Error ("User already registered !");
+
+}
+// hashing password
+const HashPassword=await bcrypt.hash(password,10);
   // Create the user
-  const user = await User.create({ username, password, role });
+  const createUser = await User.create({ username, password:HashPassword ,email , role });
 
-  // Mirror _id into userid
-  user.userid = user._id;
-  await user.save();
+  
 
-  res.status(201).json(user);
+  res.status(201).json(createUser);
 });
 
 
-const putUser = asyncHandler(async (req, res) => {
-  const updates = {};
-  const allowedFields = ["username", "description"];
-
-  for (const field of allowedFields) {
-    if (req.body[field] !== undefined) {
-      updates[field] = req.body[field];
-    }
-  }
-
-  if (Object.keys(updates).length === 0) {
+const Login = asyncHandler(async (req, res) => {
+  const {username,password}=req.body;
+   if (!username || !password  ) {
     res.status(400);
-    throw new Error("Provide username or description to update");
-  }
-
-  const user = await User.findOneAndUpdate(
-    { userid: req.params.userid },
-    updates,
-    { new: true, runValidators: true }
-  ).select("-password");
-
-  if (!user) {
-    res.status(404);
-    throw new Error("User not found");
+    throw new Error("Missing body");
   }
 
   res.status(200).json(user);
 });
 
-const deleteUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `delete user ${req.params.id}` });
-});
-
-module.exports = { getUsers, getUser, postUser, putUser, deleteUser };
+module.exports = { CurrentUser, Register, Login};

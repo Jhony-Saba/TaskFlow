@@ -1,31 +1,25 @@
 const express = require("express");
 require("dotenv").config();
-const erroHandler =require("./middleware/erroHandler")
-const db =require("./config/db")
-
-const mongoose = require('mongoose');
-const dns = require("node:dns/promises");
-const connectDB = require("./config/db");
+const erroHandler =require("./middleware/erroHandler");//Imports a custom error handler middleware.
+const dns = require("node:dns/promises");//DNS SERVIECE     
+const connectDB = require("./config/db");//DataBase connection
 dns.setServers(["1.1.1.1", "1.0.0.1"]);
 
-// const mongoose =require("mongoose");
-
-
-
-const app = express();
+const app = express();//Creates an Express app.
 const PORT = process.env.PORT || 8000 ; //PORT of my backend 
-app.use(express.json());
 
-
-app.use("/user",require("./routes/userRoute"))
-app.use("/project", require("./routes/projectRoute"))
-app.use("/task", require("./routes/taskRoute"))
-app.use(erroHandler);
+app.use(express.json());//Parses incoming JSON requests.
+app.use("/user",require("./routes/userRoute"));//User-related routes
+app.use("/project", require("./routes/projectRoute"));//Project-related routes
+app.use("/task", require("./routes/taskRoute"));//Task-related routes
+app.use(erroHandler);//apply this errorhandler after calling the routes
 
 
 const run =async()=>{
-     if( await connectDB()==1)
-     await app.listen(PORT,()=> {console.log("server is running")})
+     if( await connectDB()==1)//check if the connection to database in done [1] or not [0]
+     await app.listen(PORT,()=> {
+      console.log(`Server running on http://localhost:${PORT}`);
+})
       else console.log("erro bro")
 }
 run();

@@ -34,8 +34,8 @@ throw new Error ("User already registered !");
 }
 // hashing password
 const HashPassword=await bcrypt.hash(password,10);
-  // Create the user
-  const createUser = await User.create({ username, password:HashPassword ,email , role });
+ // Create the user
+const createUser = await User.create({ username, password:HashPassword ,email , role });
 
   
 
@@ -43,27 +43,33 @@ const HashPassword=await bcrypt.hash(password,10);
 });
 
 
-const Login = asyncHandler(async (req, res) => {
+const Login = asyncHandler(async ( req, res) => {
   const {email,password}=req.body;
    if (!email || !password ) {
     res.status(400);
     throw new Error("All fields are mandatory");
   }
-const user=await User.findOne({email});
+const user =await User.findOne({email});
+// if the user registered in the database the can login
 
 
 if(user){
+  // compare between hashing passwords
+const correctPassword = await bcrypt.compare(password,user.password);
+//if equals send to the user token  access  
+if(correctPassword){
 
-  const correctPassword = await bcrypt.compare(password,user.password);
-  
-  if(correctPassword){
 Tokenaccess= await jwt.sign({user : {
+  userid:user._id,
   username:user.username,
   password:user.password,
   email :user.email,}},
   process.env.ASSECC_TOKEN_SECRET,
-  {expiresIn :"1min"}
+  {expiresIn :process.env.TIMER}
 );
+
+
+req.user= user.encode;
 res.status(200).json({Tokenaccess})
 
 

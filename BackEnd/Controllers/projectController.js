@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 const Project = require('../models/projectModel');
 
 const getProjects = asyncHandler(async (req, res) => {
+	
 	const projects = await Project.find().populate('userId', '-password');
 	res.status(200).json(projects);
 });
@@ -18,18 +19,25 @@ const getProject = asyncHandler(async (req, res) => {
 	res.status(200).json(project);
 });
 
-const postProject = asyncHandler(async (req, res) => {
-	const { title, context, userId } = req.body;
+const createProject = asyncHandler(async (req, res) => {
+  const { title, context } = req.body;
 
-	if (!title || !userId) {
-		res.status(400);
-		throw new Error('Title and userId are required');
-	}
+  if (!title) {
+    res.status(400);
+    throw new Error('Title is required');
+  }
 
-	const project = await Project.create({ title, context, userId });
-    
-	res.status(201).json(project);
+	const { user } = req.user;
+
+  const project = await Project.create({
+    title,
+    context,
+	userid: user.userid
+  });
+
+  res.status(201).json(project);
 });
+
 
 const putProject = asyncHandler(async (req, res) => {
 	const updates = {};
@@ -74,7 +82,7 @@ const deleteProject = asyncHandler(async (req, res) => {
 module.exports = {
 	getProjects,
 	getProject,
-	postProject,
+	createProject,
 	putProject,
 	deleteProject
 };

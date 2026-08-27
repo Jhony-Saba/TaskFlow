@@ -1,9 +1,9 @@
 const express = require('express');
 const project = require('../Controllers/projectController');
-const validation =require('../middleware/validateTokenHandler')
+const {validateToken} =require('../middleware/validateTokenHandler')
 const router = express.Router();
 
-router.route('/').get(project.getProjects,validation).post(project.postProject);
+router.route('/').get(validateToken, project.getProjects).post(validateToken,project.createProject);
 router.route('/:projectid')
   .get(project.getProject)
   .put(project.putProject)

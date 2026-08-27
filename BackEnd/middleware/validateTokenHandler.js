@@ -3,8 +3,8 @@ const jwt =require('jsonwebtoken')
 const validateToken = asyncHandler(async(req,res,next)=>{
 
 let token;
-let authHeader= req.header.Authorization ||req.header.authorization ;
-if(authHeader && authHeader.startsWith("bearer")){
+let authHeader = req.header('Authorization');
+if(authHeader && authHeader.startsWith('Bearer ')){
 
 token=authHeader.split(" ")[1];
 jwt.verify(token,process.env.ASSECC_TOKEN_SECRET,(err,decode)=>{
@@ -14,7 +14,7 @@ jwt.verify(token,process.env.ASSECC_TOKEN_SECRET,(err,decode)=>{
         throw new  Error("User is not authorised")
      } 
      console.log(decode);
-     req.user = decoded;
+    req.user = decode;
       next();
 
 })}else {
@@ -22,4 +22,4 @@ jwt.verify(token,process.env.ASSECC_TOKEN_SECRET,(err,decode)=>{
     throw new Error("Authorization header missing or invalid");
   }
 })
-module.exports=validateToken;
+module.exports={validateToken};

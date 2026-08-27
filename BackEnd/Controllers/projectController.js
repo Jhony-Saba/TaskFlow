@@ -1,23 +1,18 @@
 const asyncHandler = require('express-async-handler');
 const Project = require('../models/projectModel');
 
+
+
+
 const getProjects = asyncHandler(async (req, res) => {
-	
-	const projects = await Project.find().populate('userId', '-password');
+
+const { user } = req.user;
+
+	const projects = await Project.find({userId:user.userid})
 	res.status(200).json(projects);
 });
 
-const getProject = asyncHandler(async (req, res) => {
-	const project = await Project.findOne({ projectid: req.params.projectid })
-		.populate('userId', '-password');
 
-	if (!project) {
-		res.status(404);
-		throw new Error('Project not found');
-	}
-
-	res.status(200).json(project);
-});
 
 const createProject = asyncHandler(async (req, res) => {
   const { title, context } = req.body;
@@ -32,7 +27,7 @@ const createProject = asyncHandler(async (req, res) => {
   const project = await Project.create({
     title,
     context,
-	userid: user.userid
+	userId: user.userid
   });
 
   res.status(201).json(project);
@@ -69,8 +64,8 @@ const putProject = asyncHandler(async (req, res) => {
 });
 
 const deleteProject = asyncHandler(async (req, res) => {
-	const project = await Project.findOneAndDelete({ projectid: req.params.projectid });
-
+	const {user}=req.user;
+	const project = await Project.findOneAndDelete({ userid:user.userId });
 	if (!project) {
 		res.status(404);
 		throw new Error('Project not found');
@@ -81,7 +76,6 @@ const deleteProject = asyncHandler(async (req, res) => {
 
 module.exports = {
 	getProjects,
-	getProject,
 	createProject,
 	putProject,
 	deleteProject

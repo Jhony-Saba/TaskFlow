@@ -1,4 +1,4 @@
-const { body, validationResult, check, checkSchema } = require('express-validator');
+const {validationResult, check } = require('express-validator');
 
 // Single middleware function
 const userValidator = [

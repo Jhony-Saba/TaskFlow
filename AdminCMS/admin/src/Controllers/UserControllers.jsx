@@ -1,16 +1,21 @@
 
 import{Email,Password,Username} from'../Components/Inputs'
-import {  useState } from "react";
+import { useState } from "react";
 import {RegisterApi,LoginApi} from "../Api_Connections/userApi"
+import {TokenManager} from  "../Models/ManegeToken.js"
+ 
 
 
 function LoginForm() {
+  const Token = new TokenManager();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isRunning, setIsRunning] = useState(false);
 
   const handleSubmit = async (e) => {
-    await LoginApi({email,password,isRunning,setIsRunning,e})
+    await LoginApi({email,password,isRunning,setIsRunning,e,Token})
+
+
   };
 
   return (
@@ -19,30 +24,35 @@ function LoginForm() {
       <Password password={password} setPassword={setPassword}/>
 
       <button type="submit">Login</button>
+    <p>{Token.getToken()}</p>;              
     </form>
   );
 }
 
 function RegisterForm() {
+   
+ 
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isRunning, setIsRunning] = useState(false);
+  
 
 
   const handleSubmit = async (e) => {
- await RegisterApi({email,username,password,isRunning,setIsRunning,e});
+        await RegisterApi({email,username,password,isRunning,setIsRunning,e});
 
   };
 
   return (
     <form onSubmit={handleSubmit}>
       
+      
       <Username username={username} setUsername={setUsername}/>
       <Email email={email} setEmail={setEmail}/>
       <Password password={password} setPassword={setPassword}/>
 
-      <button type="submit">Sign Up</button>
+      <button type="submit" > Sign Up</button>
     </form>
   );
 }

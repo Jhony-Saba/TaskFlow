@@ -3,6 +3,7 @@
  
  async function RegisterApi ({email,username,password,isRunning,setIsRunning,e}){
         e.preventDefault();
+        if(! email|| !username || ! password)
     if(isRunning) return;
 setIsRunning(true);
      try {
@@ -19,7 +20,7 @@ setIsRunning(true);
       });
 
       const data = await response.json();
-
+          
       if (!response.ok) {
         setIsRunning(false);
         throw new Error(data.message || "Registration failed");
@@ -29,6 +30,7 @@ setIsRunning(true);
       alert("Registration successful");
       setIsRunning(false);
       console.log(data);
+      
     } catch (error) {
       alert(error.message);
        setIsRunning(false);
@@ -36,7 +38,7 @@ setIsRunning(true);
 
 
 }
-async function LoginApi({email,password,isRunning,setIsRunning,e}){
+async function LoginApi({email,password,isRunning,setIsRunning,e,Token}){
     
   
   e.preventDefault();
@@ -57,7 +59,8 @@ async function LoginApi({email,password,isRunning,setIsRunning,e}){
       }
 
       console.log(data);
-      alert(data); 
+      alert(typeof data.Tokenaccess); 
+      Token.setToken(data.Tokenaccess); 
       setIsRunning(false);
 
     } catch (error) {

@@ -1,15 +1,10 @@
 import react from 'react'
-import { RegisterForm, LoginForm} from  '../Controllers/UserControllers'
-
-
-
+import{LoginRoute} from "../Routes/LoginRoute"
 function Login() {
 react.Component()
   return (
     <>
-    <RegisterForm/>
-    <LoginForm/>
-
+<LoginRoute/>
     </>
   )
 }

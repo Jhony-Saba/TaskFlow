@@ -1,14 +1,11 @@
-import { useState } from 'react'
+import { useState} from 'react'
 import validator from 'validator'
-
-// import { useState } from "react";
-
-
+import {Link} from 'react-router-dom'
 
 function Email({ email, setEmail }) {
   const [emailStatus, setEmailStatus] = useState("");
 
-  const handleEmail = (e) => {
+    const handleEmail = (e) => {
     const value = e.target.value;
     const result = validateEmail(value);
 
@@ -38,20 +35,36 @@ function Email({ email, setEmail }) {
 
 function Password({ password, setPassword }) {
   const [passwordStatus, setPasswordStatus] = useState("");
+  const [passwordDetails, setPasswordDetails] = useState([]);
 
   const handlePassword = (e) => {
     const value = e.target.value;
     const result = validatePassword(value);
 
     setPasswordStatus(result.message);
+    setPasswordDetails(result.details || []);
 
     if (!result.valid) {
-  
       setPassword('');
       return result.message;
     }
 
     return result.message;
+  };
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+
+    if (!value) {
+      setPasswordStatus("");
+      setPasswordDetails([]);
+      return;
+    }
+
+    const result = checkPassword(value);
+    setPasswordStatus(result.valid ? "" : result.message);
+    setPasswordDetails(result.valid ? [] : result.details || []);
   };
 
   return (
@@ -60,10 +73,17 @@ function Password({ password, setPassword }) {
         type="password"
         placeholder="Enter your Password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={handlePasswordChange}
         onBlur={handlePassword}
       />
-      <p>{passwordStatus}</p>
+      {passwordStatus && <p>{passwordStatus}</p>}
+      {passwordDetails.length > 0 && (
+        <ol>
+          {passwordDetails.map((detail, index) => (
+            <li key={index}>{detail}</li>
+          ))}
+        </ol>
+      )}
     </>
   );
 }
@@ -99,43 +119,109 @@ function Username({ username, setUsername }) {
   );
 }
 
+
+
+
+
 function validateEmail(value) {
-  if (validator.isEmpty(value)) {
-    return { valid: false, message: 'Email is required' };
-  }
+  const result = inputCheck(value, 'Email');
+  if (result) return result;
 
   if (!validator.isEmail(value)) {
     return { valid: false, message: 'Invalid email format' };
   }
 
-  return { valid: true, message: '' };
+  return { valid: true, message: '', details: [] };
 }
 
 function validatePassword(value) {
-  if (validator.isEmpty(value)) {
-    return { valid: false, message: 'Password is required' };
-  }
+  const result = inputCheck(value, 'Password');
+  if (result) return result;
 
-  if (value.length < 6) {
-    return { valid: false, message: 'Password must be at least 6 characters' };
-  }
-  if( validator.isStrongPassword(value)){
-    return { valid: false, message: 'Bad Password' }
-  }
-
-  return { valid: true, message: '' };
+  return checkPassword(value);
 }
 
 function validateUsername(value) {
-  if (validator.isEmpty(value)) {
-    return { valid: false, message: 'Username is required' };
-  }
+  const result = inputCheck(value, 'Username');
+  if (result) return result;
 
   if (value.length < 3) {
     return { valid: false, message: 'Username must be at least 3 characters' };
   }
 
-  return { valid: true, message: '' };
+  return { valid: true, message: '', details: [] };
 }
 
-export { Email, Password, Username };
+
+function checkPassword(value) {
+  const options = {
+    minLength: 6,
+    minLowercase: 1,
+    minUppercase: 1,
+    minNumbers: 1,
+    minSymbols: 1,
+  };
+
+  const errors = [];
+
+  // Run the built-in strong password check
+  const isStrong = validator.isStrongPassword(value, options);
+
+  // Manual checks to explain what failed
+  if (value.length < options.minLength) {
+    errors.push(`Password must be at least ${options.minLength} characters long`);
+  }
+  if ((value.match(/[a-z]/g) || []).length < options.minLowercase) {
+    errors.push("Password must contain at least one lowercase letter");
+  }
+  if ((value.match(/[A-Z]/g) || []).length < options.minUppercase) {
+    errors.push("Password must contain at least one uppercase letter");
+  }
+  if ((value.match(/[0-9]/g) || []).length < options.minNumbers) {
+    errors.push("Password must contain at least one number");
+  }
+  if ((value.match(/[^A-Za-z0-9]/g) || []).length < options.minSymbols) {
+    errors.push("Password must contain at least one symbol");
+  }
+
+  if (!isStrong) {
+    return { valid: false, details: errors };
+  }
+
+  return { valid: true, message: "",details:[] };
+}
+function inputCheck(value, fieldName) {
+  if (!fieldName) {
+    fieldName = 'Field';
+  }
+
+  if (validator.isEmpty(value)) {
+    return { valid: false, message: `${fieldName} is required`, details: [] };
+  }
+  if (validator.isNumeric(value)) {
+    return { valid: false, message: `${fieldName} is invalid`, details: [] };
+  }
+  if (validator.isBoolean(value)) {
+    return { valid: false, message: `${fieldName} is invalid`, details: [] };
+  }
+  if (validator.isEAN(value)) {
+    return { valid: false, message: `${fieldName} is invalid`, details: [] };
+  }
+
+  return null;
+}
+
+
+function Navbar() {
+  return (
+    <div>
+      <Link to="/login">
+       Login
+      </Link>
+      <Link to="/signup">
+      Sing Up
+      </Link>
+    </div>
+  );
+}
+export { Email, Password, Username,Navbar };

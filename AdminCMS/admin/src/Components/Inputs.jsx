@@ -32,7 +32,6 @@ function Email({ email, setEmail }) {
     </>
   );
 }
-
 function Password({ password, setPassword }) {
   const [passwordStatus, setPasswordStatus] = useState("");
   const [passwordDetails, setPasswordDetails] = useState([]);
@@ -87,7 +86,6 @@ function Password({ password, setPassword }) {
     </>
   );
 }
-
 function Username({ username, setUsername }) {
   const [usernameStatus, setUsernameStatus] = useState("");
 
@@ -118,12 +116,76 @@ function Username({ username, setUsername }) {
     </>
   );
 }
+function Title({ title, setTitle }) {
+  const [titleStatus, setTitleStatus] = useState("");
+  
+  
+  const handleTitle =(e)=>{
+    const value =e.target.value;
+    if(inputCheck(value,'Title')){
+      setTitleStatus('Title is required');
+      setTitle('');
+      return 'Title is required';
+    }
+
+    return '';
+  }
+  
+  return(<>
+  <input type="text"
+  placeholder="Enter your title" 
+  value={title} 
+  onChange={(e)=>setTitle(e.target.value)} 
+  onBlur={handleTitle}
+  />
+  <p>{titleStatus}</p>
+  </>);
+
+
+}
+function Context({ context, setContext }) {
+  const [contextStatus, setContextStatus] = useState("");
+  
+  
+  const handleContext =(e)=>{
+    const value =e.target.value;
+    if(validator.isBoolean(value) || validator.isNumeric(value) || validator.isEmpty(value)){
+      setContextStatus('Context is required');
+      setContext('');
+      return 'Context is required';
+    }
+    return '';
+
+  }
+  
+  return(<>
+  <input type="text"
+  placeholder="Enter context" 
+  value={context} 
+  onChange={(e)=>setContext(e.target.value)} 
+  onBlur={handleContext}
+  />
+  <p>{contextStatus}</p>
+  </>);
+
+
+  }
+
+  
 
 
 
 
 
-function validateEmail(value) {
+
+
+
+
+
+
+
+
+  function validateEmail(value) {
   const result = inputCheck(value, 'Email');
   if (result) return result;
 
@@ -224,4 +286,4 @@ function Navbar() {
     </div>
   );
 }
-export { Email, Password, Username,Navbar };
+export { Email, Password, Username, Title, Context, Navbar };

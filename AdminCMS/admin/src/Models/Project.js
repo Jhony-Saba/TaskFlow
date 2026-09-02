@@ -1,17 +1,16 @@
-class Project {
-  // private projectid
-  #projectid;
+class Project { 
+
+
 
   constructor(title, context, projectid) {
     this.title = title;
     this.context = context;
-    this.#projectid = projectid; // keep projectid private
+    this.projectid = projectid; // keep projectid private
+    
   }
 
-  // getter for projectid
-  getProjectId() {
-    return this.#projectid;
-  }
+
+ 
 
   // update project title
   updateTitle(newTitle) {
@@ -27,7 +26,7 @@ class Project {
 
   // show project info
   getInfo() {
-    return `ProjectID: ${this.#projectid}, Title: ${this.title}, Context: ${this.context}`;
+    return `ProjectID: ${this.projectid}, Title: ${this.title}, Context: ${this.context}`;
   }
 }
 

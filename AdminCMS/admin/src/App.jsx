@@ -1,12 +1,13 @@
-import react from 'react'
-import Login from './View/Login'
+import LoginPage from './View/Login';
+
 
 function App() {
-react.Component()
 
-  return (
-   <Login/>
-  )
+
+  return (<LoginPage/>
+    
+    
+  );
 }
 
 export default App

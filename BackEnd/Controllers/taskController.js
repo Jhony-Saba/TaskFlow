@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const task =require("../models/taskModel")
+const Task =require("../models/taskModel")
 
 
 
@@ -8,32 +8,61 @@ const task =require("../models/taskModel")
 
 
 const getTasks = asyncHandler(async (req, res) => {
-  const tasks = await task.find();
+  
+  const tasks = await Task.find();
   res.status(200).json({ message: `Get tasks ${tasks}` });
 });
 
 const getTask = asyncHandler(async (req, res) => {
+ 
   const id = req.params.id;
-  res.status(200).json({ message: `Get taskid ${id}` });
+const tasks = await Task.find({projectId:id})
+  res.status(200).json(tasks);
+  
 });
 
 const postTask = asyncHandler(async (req, res) => {
-   const{tittle ,projectId ,context ,status} = req.body;
   
-   if (   !tittle || !projectId || !context || !status) {
+   const{title ,projectId ,status} = req.body;
+  
+   if (   !title || !projectId || !status) {
     res.status(400);
     throw new Error("Missing body");
   }
-  const createTask =await task.create({tittle,projectId,context,status})
+  const createTask =await Task.create({title,projectId,status})
   res.status(200).json(createTask);
 });
 
 const putTask = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `update task ${req.params.id}` });
+  const id = req.params.id;
+  const { title, status } = req.body;
+
+  
+  const updateData = {};
+  if (title) updateData.title = title;
+  if (status) updateData.status = status;
+
+  const task = await Task.findByIdAndUpdate(id, updateData, { new: true });
+
+  if (!task) {
+    res.status(404);
+    throw new Error('Task not found');
+  }
+
+  res.status(200).json({ message: `Updated task ${id}`, task });
 });
 
 const deleteTask = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `delete task ${req.params.id}` });
+  const id = req.params.id;
+
+  const task = await Task.findByIdAndDelete(id);
+
+  if (!task) {
+    res.status(404);
+    throw new Error('Task not found');
+  }
+
+  res.status(200).json({ message: 'Task deleted successfully' });
 });
 
 module.exports = { getTasks, getTask, postTask, putTask, deleteTask };

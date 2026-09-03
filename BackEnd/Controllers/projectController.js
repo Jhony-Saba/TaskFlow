@@ -46,7 +46,7 @@ const putProject = asyncHandler(async (req, res) => {
 
 	if (Object.keys(updates).length === 0) {
 		res.status(400);
-		throw new Error('Provide title, context, or userId to update');
+		throw new Error('Provide title or context to update');
 	}
 
 	const project = await Project.findOneAndUpdate(
@@ -65,7 +65,8 @@ const putProject = asyncHandler(async (req, res) => {
 
 const deleteProject = asyncHandler(async (req, res) => {
 	const {user}=req.user;
-	const project = await Project.findOneAndDelete({ userid:user.userId });
+	const projectId = req.params.id;
+	const project = await Project.findById(projectId).deleteOne({ userId: user.userid });
 	if (!project) {
 		res.status(404);
 		throw new Error('Project not found');

@@ -3,9 +3,11 @@ const project = require('../Controllers/projectController');
 const {validateToken} =require('../middleware/validateTokenHandler')
 const router = express.Router();
 
-router.route('/').get(validateToken, project.getProjects).post(validateToken,project.createProject);
+router.use(validateToken)
 router.route('/')
-  .put(project.putProject)
-  .delete(validateToken,project.deleteProject);
+                  .get( project.getProjects)
+                  .post(project.createProject)
+                  .put( project.putProject)
+ router.route('/:id').delete(project.deleteProject);
 
 module.exports = router;

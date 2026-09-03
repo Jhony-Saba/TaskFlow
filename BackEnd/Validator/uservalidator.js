@@ -10,11 +10,13 @@ const userValidator = [
     .trim(),
 
   check('email')
- .isString()
  .notEmpty()
  .trim()
  .isEmail().withMessage('Invalid email format'),
-
+ check('password')
+ .notEmpty().withMessage('password Empty password')
+ .isString()
+ .isStrongPassword({ minLength: 6, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1 }).withMessage('Password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol'),
 
   // Final middleware to check results
   (req, res, next) => {

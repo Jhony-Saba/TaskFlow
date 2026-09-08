@@ -5,8 +5,9 @@ function DashbordPage() {
     <>
       <ProjectProvider>
         <Header />
+         <AddProject />
         <DisplayProjects />
-        <AddProject />
+        
       </ProjectProvider>
     </>
   );

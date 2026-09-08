@@ -2,6 +2,7 @@ import { useState} from 'react'
 import validator from 'validator'
 import {Link} from 'react-router-dom'
 
+
 function Email({ email, setEmail }) {
   const [emailStatus, setEmailStatus] = useState("");
 
@@ -170,6 +171,20 @@ function Context({ context, setContext }) {
 
 
   }
+function SelectTaskStatus({ status, setStatus }) {
+  const statusOptions = ['To Do', 'In Progress', 'Done'];
+
+  return (
+    <select value={status} onChange={(e) => setStatus?.(e.target.value)} disabled={!setStatus}>
+      {statusOptions.map((option, index) => (
+        <option key={index} value={option}>
+          {option}
+        </option>
+      ))}
+    </select>
+  );
+}
+
 
   
 
@@ -286,4 +301,4 @@ function Navbar() {
     </div>
   );
 }
-export { Email, Password, Username, Title, Context, Navbar };
+export { Email, Password, Username, Title, Context, Navbar,SelectTaskStatus };

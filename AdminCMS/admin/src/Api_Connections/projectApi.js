@@ -49,6 +49,24 @@ async function DeleteProjectApi(projectId) {
   }
 }
 
+async function PutProject({ projectId, title, context }) {
+  try {
+    const response = await axios.put(`http://localhost:8000/project/${projectId}`, {
+      title,
+      context,
+    }, {
+      headers: {
+        Authorization: `Bearer ${Token.getToken()}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 async function getProjectTasks() {
   try {
     const response = await axios.get('http://localhost:8000/task', {
@@ -64,4 +82,4 @@ async function getProjectTasks() {
   }
 }
 
-export { getProjects, CreateProject, getProjectTasks, DeleteProjectApi };
+export { getProjects, CreateProject, PutProject, getProjectTasks, DeleteProjectApi };

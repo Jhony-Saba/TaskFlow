@@ -7,6 +7,7 @@ export default function Home() {
   
   <h6>
   <Sum num1={num1} num2={500}/></h6>
+  
   </>
   );
 }

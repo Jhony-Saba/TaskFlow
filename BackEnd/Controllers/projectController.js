@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Project = require('../models/projectModel');
+const Task =require('../models/taskModel')
 
 
 
@@ -36,7 +37,8 @@ const createProject = asyncHandler(async (req, res) => {
 
 const putProject = asyncHandler(async (req, res) => {
 	const updates = {};
-	const allowedFields = ['title', 'context', 'userId'];
+	const allowedFields = ['title', 'context'];
+	const { user } = req.user;
 
 	for (const field of allowedFields) {
 		if (req.body[field] !== undefined) {
@@ -50,7 +52,7 @@ const putProject = asyncHandler(async (req, res) => {
 	}
 
 	const project = await Project.findOneAndUpdate(
-		{ projectid: req.params.projectid },
+		{ _id: req.params.id, userId: user.userid },
 		updates,
 		{ new: true, runValidators: true }
 	).populate('userId', '-password');
@@ -67,9 +69,14 @@ const deleteProject = asyncHandler(async (req, res) => {
 	const {user}=req.user;
 	const projectId = req.params.id;
 	const project = await Project.findById(projectId).deleteOne({ userId: user.userid });
+	const task =await Task.find({projectId:projectId}).deleteMany({projectId:projectId});
 	if (!project) {
 		res.status(404);
 		throw new Error('Project not found');
+	}
+	if(!task){
+		res.status(404);
+		throw new Error('Tasks not found it');
 	}
 
 	res.status(200).json({ message: 'Project deleted successfully' });

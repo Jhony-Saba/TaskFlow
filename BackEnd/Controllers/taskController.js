@@ -7,10 +7,24 @@ const Task =require("../models/taskModel")
 
 
 
-const getTasks = asyncHandler(async (req, res) => {
-  
-  const tasks = await Task.find();
-  res.status(200).json({ message: `Get tasks ${tasks}` });
+
+const getPercentageOfTasks = asyncHandler(async(req,res)=>{
+   const id=req.params.id;
+  const status=["To Do","Done"];
+  const totalTasks = await Task.countDocuments({ projectId: id });
+
+  const ToDoTasks= await Task.countDocuments({projectId:id,status:status[0]});
+  const DoneTasks =await Task.countDocuments({projectId:id,status:status[1]})
+  const percentage = totalTasks > 0 ? (DoneTasks / totalTasks) * 100 : 0;
+  res.status(200).json({
+    projectId: id,
+    totalTasks,
+    ToDoTasks,
+    percentage,
+
+   
+
+  })
 });
 
 const getTask = asyncHandler(async (req, res) => {
@@ -65,4 +79,4 @@ const deleteTask = asyncHandler(async (req, res) => {
   res.status(200).json({ message: 'Task deleted successfully' });
 });
 
-module.exports = { getTasks, getTask, postTask, putTask, deleteTask };
+module.exports = {  getTask, postTask, putTask, deleteTask, getPercentageOfTasks };

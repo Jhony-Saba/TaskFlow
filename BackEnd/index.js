@@ -14,6 +14,7 @@ app.use(express.json());//Parses incoming JSON requests.
 app.use("/user",require("./routes/userRoute"));//User-related routes
 app.use("/project", require("./routes/projectRoute"));//Project-related routes
 app.use("/task", require("./routes/taskRoute"));//Task-related routes
+
 app.use(erroHandler);//apply this errorhandler after calling the routes
 
 

@@ -1,7 +1,7 @@
 import { useState} from 'react'
 import validator from 'validator'
 import {Link} from 'react-router-dom'
-
+import style from '../Styles/Inputs.module.css'
 
 function Email({ email, setEmail }) {
   const [emailStatus, setEmailStatus] = useState("");
@@ -25,6 +25,7 @@ function Email({ email, setEmail }) {
       <input
         type="email"
         placeholder="Enter your Email"
+        className={style.input}
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         onBlur={handleEmail}
@@ -72,6 +73,7 @@ function Password({ password, setPassword }) {
       <input
         type="password"
         placeholder="Enter your Password"
+        className={style.input}
         value={password}
         onChange={handlePasswordChange}
         onBlur={handlePassword}
@@ -109,6 +111,7 @@ function Username({ username, setUsername }) {
       <input
         type="text"
         placeholder="Enter your username"
+        className={style.input}
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         onBlur={handleUsername}

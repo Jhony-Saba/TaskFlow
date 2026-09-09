@@ -5,7 +5,7 @@ import { Project } from '../Models/Project.js';
 import { Link, useNavigate } from 'react-router-dom';
 import { Context, SelectTaskStatus, Title } from '../Components/Inputs.jsx';
 import { Task } from '../Models/Task.js';
-
+import style from '../Styles/DashBoard.module.css'
 
 const ProjectContext = createContext(null);
 
@@ -48,18 +48,24 @@ function DisplayProjects() {
   }, [refreshKey]);
 
   return (
-    <>
+    <section className={style.projectGrid}>
+      {projects.length === 0 && <p className={style.emptyState}>No projects yet. Add your first project above.</p>}
       {projects.map((project) => (
-        <div key={project.projectid}>
-          <h3>{project.title}</h3>
-          <p>{project.context}</p>
+        <article className={style.projectCard} key={project.projectid}>
+          <div className={style.projectHeading}>
+            <div>
+              <p className={style.cardEyebrow}>Project</p>
+              <h3>{project.title}</h3>
+              <p className={style.projectContext}>{project.context || 'No project description yet.'}</p>
+            </div>
+            <DeleteProject projectId={project.projectid} />
+          </div>
           <ProjectStatic projectId={project.projectid} />
           <EditProject project={project} />
-          <DeleteProject projectId={project.projectid} />
           <DisplayTask projectId={project.projectid} />
-        </div>
+        </article>
       ))}
-    </>
+    </section>
   );
 }
 
@@ -87,15 +93,15 @@ function EditProject({ project }) {
   };
 
   if (!isEditing) {
-    return <button onClick={() => setIsEditing(true)}>Edit project</button>;
+    return <button className={style.textButton} onClick={() => setIsEditing(true)}>Edit project</button>;
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={style.inlineForm} onSubmit={handleSubmit}>
       <Title title={title} setTitle={setTitle} />
       <Context context={context} setContext={setContext} />
-      <button type="submit" disabled={isRunning}>{isRunning ? 'Saving...' : 'Save project'}</button>
-      <button type="button" onClick={() => setIsEditing(false)} disabled={isRunning}>Cancel</button>
+      <button className={style.primaryButton} type="submit" disabled={isRunning}>{isRunning ? 'Saving...' : 'Save project'}</button>
+      <button className={style.secondaryButton} type="button" onClick={() => setIsEditing(false)} disabled={isRunning}>Cancel</button>
     </form>
   );
 }
@@ -124,15 +130,20 @@ function ProjectStatic({ projectId }) {
   }, [refreshKey, projectId]);
 
   if (!statics) {
-    return <p>Loading statistics...</p>;
+    return <p className={style.loadingState}>Loading statistics...</p>;
   }
 
   return (
-    <div id="projectStatic">
-      <h2>Project Statistics</h2>
-      <p>Total Tasks: {statics.tasks}</p>
-      <p>To Do Tasks: {statics.toDoTasks}</p>
-      <p>Percentage: {statics.percentage}</p>
+    <div className={style.projectStats}>
+      <div className={style.statsHeader}>
+        <h2>Project pulse</h2>
+        <span>{statics.percentage}% complete</span>
+      </div>
+      <div className={style.statsGrid}>
+        <div><strong>{statics.tasks}</strong><span>Total tasks</span></div>
+        <div><strong>{statics.toDoTasks}</strong><span>To do</span></div>
+        <div><strong>{statics.percentage}%</strong><span>Complete</span></div>
+      </div>
     </div>
   );
 }
@@ -145,7 +156,7 @@ function DeleteProject({ projectId }) {
     triggerRefresh();
   };
 
-  return <button onClick={Deleteit}>Delete</button>;
+  return <button className={style.iconButton} onClick={Deleteit} aria-label="Delete project">Delete</button>;
 }
 
 function Header() {
@@ -156,13 +167,13 @@ function Header() {
     navigate('/login', { replace: true });
   };
   return (
-    <header className="header">
-      <h1>TaskFlow</h1>
-      <div>
-        <Link to={'/dashboard/projects'}>Dashboard</Link>
-        <Link to={'/dashboard/add-project'}>Add project</Link>
-      </div>
-      <button onClick={handleLogout}>Log Out</button>
+    <header className={style.header}>
+      <Link className={style.logo} to={'/dashboard/projects'}><span>TF</span>TaskFlow</Link>
+      <nav className={style.headerNav} aria-label="Dashboard navigation">
+        <Link to={'/dashboard/projects'}>Overview</Link>
+        <Link to={'/dashboard/add-project'}>Projects</Link>
+      </nav>
+      <button className={style.logoutButton} onClick={handleLogout}>Log out</button>
     </header>
   );
 }
@@ -185,10 +196,17 @@ function AddProject() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={style.addProjectCard} onSubmit={handleSubmit}>
+      <div className={style.addProjectHeading}>
+        <div>
+          <p className={style.cardEyebrow}>Start something new</p>
+          <h2>Add a project</h2>
+        </div>
+        <span className={style.plusMark}>+</span>
+      </div>
       <Title title={title} setTitle={setTitle} />
       <Context context={context} setContext={setContext} />
-      <button type="submit" disabled={isRunning}>
+      <button className={style.primaryButton} type="submit" disabled={isRunning}>
         {isRunning ? 'Adding project...' : 'Add Project'}
       </button>
     </form>
@@ -213,10 +231,10 @@ function AddTask({ projectId }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={style.taskForm} onSubmit={handleSubmit}>
       <Title title={title} setTitle={setTitle} />
       <SelectTaskStatus status={status} setStatus={setStatus} />
-      <button type="submit" disabled={isRunning}>
+      <button className={style.primaryButton} type="submit" disabled={isRunning}>
         {isRunning ? 'Adding task' : 'Add Task'}
       </button>
     </form>
@@ -256,20 +274,24 @@ function DisplayTask({ projectId }) {
   };
 
   return (
-    <>
-      <button onClick={handleVisible}>visible</button>
-      <div id="taskbody" style={{ display: isVisible ? 'block' : 'none' }}>
+    <div className={style.taskSection}>
+      <button className={style.taskToggle} onClick={handleVisible} aria-expanded={isVisible}>
+        {isVisible ? 'Hide tasks' : 'View tasks'} <span>{isVisible ? '−' : '+'}</span>
+      </button>
+      <div className={style.taskBody} hidden={!isVisible}>
         <AddTask projectId={projectId} />
         {tasks.map((task) => (
-          <div key={task.id}>
+          <div className={style.taskItem} key={task.id}>
             <h3>{task.title}</h3>
             <SelectTaskStatus status={task.status} />
-            <EditTask task={task} />
-            <button onClick={() => handleDelete(task.id)}>Delete</button>
+            <div className={style.taskActions}>
+              <EditTask task={task} />
+              <button className={style.textButton} onClick={() => handleDelete(task.id)}>Delete</button>
+            </div>
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }
 
@@ -297,15 +319,15 @@ function EditTask({ task }) {
   };
 
   if (!isEditing) {
-    return <button onClick={() => setIsEditing(true)}>Edit task</button>;
+    return <button className={style.textButton} onClick={() => setIsEditing(true)}>Edit task</button>;
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={`${style.inlineForm} ${style.editTaskForm}`} onSubmit={handleSubmit}>
       <Title title={title} setTitle={setTitle} />
       <SelectTaskStatus status={status} setStatus={setStatus} />
-      <button type="submit" disabled={isRunning}>{isRunning ? 'Saving...' : 'Save task'}</button>
-      <button type="button" onClick={() => setIsEditing(false)} disabled={isRunning}>Cancel</button>
+      <button className={style.primaryButton} type="submit" disabled={isRunning}>{isRunning ? 'Saving...' : 'Save task'}</button>
+      <button className={style.secondaryButton} type="button" onClick={() => setIsEditing(false)} disabled={isRunning}>Cancel</button>
     </form>
   );
 }

@@ -18,3 +18,33 @@ a { color: inherit; }
 .workspaceSection { display: flex; align-items: end; justify-content: space-between; max-width: 1240px; margin: 0 auto 100px; padding: 72px 48px; border-radius: 20px 20px 20px 4px; color: #fffaf0; background: var(--forest); }.workspaceSection .eyebrow { color: var(--gold); }.workspaceSection em { color: var(--gold); }.lightButton { color: var(--forest); background: var(--gold); }.lightButton:hover { background: #f6d58e; }.siteFooter { display: flex; align-items: center; gap: 32px; max-width: 1240px; margin: auto; padding: 25px 34px 32px; border-top: 1px solid var(--line); color: #899790; font: .63rem "Trebuchet MS", sans-serif; }.siteFooter p { margin: 0 auto 0 0; }
 @media (max-width: 800px) { .siteHeader { padding: 18px 20px; }.siteNav a:not(.navButton) { display: none; }.hero { grid-template-columns: 1fr; padding: 72px 20px 85px; }.heroVisual { max-width: 620px; width: 100%; margin: auto; }.methodSection, .whySection { grid-template-columns: 1fr; gap: 50px; padding: 70px 20px 85px; }.workflowGrid { gap: 14px; }.whyList { gap: 14px; }.workspaceSection { align-items: start; flex-direction: column; gap: 35px; margin: 0 20px 70px; padding: 42px 28px; }.siteFooter { flex-wrap: wrap; padding: 25px 20px; }.siteFooter p { width: 100%; order: 3; } }
 @media (max-width: 520px) { h1 { font-size: clamp(3.4rem, 17vw, 5rem); }.heroActions { align-items: start; flex-direction: column; gap: 18px; }.heroVisual { min-height: auto; padding: 16px; }.visualHeading { margin-top: 32px; }.workflowGrid { grid-template-columns: 1fr; gap: 35px; }.workflowItem h3 { margin-top: 20px; } }
+
+.teamSection { display: grid; grid-template-columns: minmax(260px, .78fr) 1.22fr; gap: clamp(45px, 8vw, 105px); max-width: 1240px; margin: auto; padding: 98px 34px 116px; border-top: 1px solid var(--line); }
+.teamIntro h2 { margin: 0; font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 400; line-height: .94; letter-spacing: -.06em; }
+.teamIntro > p:not(.eyebrow) { max-width: 410px; margin: 25px 0 0; color: var(--muted); font: .9rem/1.7 "Trebuchet MS", sans-serif; }
+.teamFeatureList { display: grid; gap: 17px; margin-top: 34px; }
+.teamFeatureList div { padding-top: 13px; border-top: 2px solid var(--amber); }
+.teamFeatureList strong, .teamFeatureList span { display: block; }
+.teamFeatureList strong { font: 400 1rem Georgia, "Times New Roman", serif; }
+.teamFeatureList span { max-width: 330px; margin-top: 5px; color: var(--muted); font: .7rem/1.5 "Trebuchet MS", sans-serif; }
+.teamBoard { align-self: center; padding: 25px; border: 1px solid rgba(24,51,45,.11); border-radius: 20px 20px 20px 5px; background: #fffdf9; box-shadow: 0 22px 50px rgba(37, 62, 54, .08); }
+.teamBoardTop, .boardFooter { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.teamBoardTop h3 { margin: 0; font-size: 1.55rem; font-weight: 400; }
+.teamBoardTop .cardLabel { margin-bottom: 8px; }
+.teamMemberStack { display: flex; padding-right: 4px; }
+.teamMemberStack i { display: grid; width: 30px; height: 30px; margin-left: -5px; place-items: center; border: 2px solid #fffdf9; border-radius: 50%; color: #fffaf0; background: var(--forest-soft); font: 700 .54rem "Trebuchet MS", sans-serif; font-style: normal; }
+.teamMemberStack i:nth-child(2) { background: #b45142; }.teamMemberStack i:nth-child(3) { background: var(--amber); }
+.boardColumns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 28px; }
+.boardColumns > div { min-width: 0; padding: 11px; border-radius: 10px; background: #f1f4ef; }
+.columnLabel { display: flex; align-items: center; justify-content: space-between; margin: 0 0 10px; color: var(--muted); font: 700 .61rem "Trebuchet MS", sans-serif; text-transform: uppercase; }
+.columnLabel span { display: grid; width: 18px; height: 18px; place-items: center; border-radius: 50%; color: var(--forest); background: #dfe7df; font-size: .55rem; }
+.boardColumns article { margin-top: 8px; padding: 11px 9px; border: 1px solid rgba(24,51,45,.08); border-radius: 8px; background: #fffdf9; }
+.boardColumns article b, .boardColumns article small { display: block; }
+.boardColumns article b { font: 400 .72rem/1.25 Georgia, "Times New Roman", serif; }.boardColumns article small { margin-top: 8px; color: #899790; font: .56rem "Trebuchet MS", sans-serif; }
+.boardColumns .activeTask { border-left: 3px solid var(--amber); }.boardColumns .doneTask { opacity: .7; }
+.boardFooter { margin-top: 18px; padding-top: 17px; border-top: 1px solid var(--line); }
+.boardFooter span b, .boardFooter span small { display: block; }.boardFooter span b { font: 400 .8rem Georgia, "Times New Roman", serif; }.boardFooter span small { margin-top: 4px; color: #899790; font: .6rem "Trebuchet MS", sans-serif; }
+.miniProgress { flex: 1; max-width: 150px; height: 6px; border-radius: 99px; background: #edf0eb; }.miniProgress i { display: block; width: 68%; height: 100%; border-radius: inherit; background: var(--amber); }.boardFooter > strong { color: #6e8c55; font: 700 .62rem "Trebuchet MS", sans-serif; }
+.workspaceText { max-width: 380px; margin: 18px 0 0; color: rgba(255,250,240,.7); font: .82rem/1.6 "Trebuchet MS", sans-serif; }
+@media (max-width: 800px) { .teamSection { grid-template-columns: 1fr; gap: 50px; padding: 70px 20px 85px; }.teamBoard { width: 100%; } }
+@media (max-width: 520px) { .teamBoard { padding: 18px; }.boardColumns { grid-template-columns: 1fr; }.boardColumns > div { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }.boardColumns .columnLabel { grid-column: 1 / -1; margin-bottom: 0; }.boardColumns article { margin-top: 0; }.boardFooter { align-items: end; flex-wrap: wrap; }.miniProgress { order: 3; flex-basis: 100%; max-width: none; } }

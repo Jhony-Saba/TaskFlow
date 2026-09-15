@@ -188,16 +188,59 @@ function SelectTaskStatus({ status, setStatus }) {
   );
 }
 
+function Deadline({ deadline, setDeadline }) {
+
+ const handleDeadline = (e) => {
+ const result= validateDeadline(e.target.value);
+  if(result.valid){
+    setDeadline?.(e.target.value);
+     // e.target.value is "YYYY-MM-DD"
+  }
+  else {
+    alert(result.message)
+  }
+
+  };
+
+  
+   return (
+    <input
+      type="date"
+      aria-label="Task deadline"
+      value={deadline || ''}
+      onChange={handleDeadline}
+    />
+  );
+}
+
 
   
 
+function validateDeadline(value) {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return { valid: false, message: "Invalid date" };
+  }
 
+  const [year, month, day] = value.split('-').map(Number);
+  const deadline = new Date(year, month - 1, day);
 
+  if (
+    deadline.getFullYear() !== year ||
+    deadline.getMonth() !== month - 1 ||
+    deadline.getDate() !== day
+  ) {
+    return { valid: false, message: "Invalid date" };
+  }
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
+  if (deadline < today) {
+    return { valid: false, message: "Deadline cannot be in the past" };
+  }
 
-
-
+  return { valid: true, message: "Valid deadline" };
+}
 
 
 
@@ -304,4 +347,4 @@ function Navbar() {
     </div>
   );
 }
-export { Email, Password, Username, Title, Context, Navbar,SelectTaskStatus };
+export { Email, Password, Username, Title, Context, Navbar, SelectTaskStatus, Deadline };

@@ -25,12 +25,10 @@ try {
 }
 
 }
-
-
-async function CreateTask({ title, projectId, status }) {
+async function CreateTask({ title, projectId, status,deadline }) {
     try {
     const response = await axios.post(
-      'http://localhost:8000/task', { title, status ,projectId}, {
+      'http://localhost:8000/task', { title, status ,projectId ,deadline}, {
       headers: {
         Authorization: `Bearer ${Token.getToken()}`,
       }});
@@ -62,7 +60,7 @@ async function DeleteTask(taskId) {
 async function PutTask({ title,taskId,status ,deadline }) {
       try {
     const response = await axios.put(
-  `http://localhost:8000/task/${taskId}`, { title, status }, {
+  `http://localhost:8000/task/${taskId}`, { title, status ,deadline }, {
       headers: {
         Authorization: `Bearer ${Token.getToken()}`,
       }});
@@ -73,13 +71,5 @@ async function PutTask({ title,taskId,status ,deadline }) {
     throw error;
   }
 }
-
-
-
-
-
-
-
-
 
 export {CreateTask,DeleteTask,PutTask,getTasks,getTasksStatistics}

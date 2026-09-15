@@ -3,7 +3,7 @@ import { getProjects, CreateProject, DeleteProjectApi, PutProject } from '../Api
 import { CreateTask, DeleteTask, PutTask, getTasks, getTasksStatistics } from '../Api_Connections/taskApi.js';
 import { Project } from '../Models/Project.js';
 import { Link, useNavigate } from 'react-router-dom';
-import { Context, SelectTaskStatus, Title } from '../Components/Inputs.jsx';
+import { Context, Deadline, SelectTaskStatus, Title } from '../Components/Inputs.jsx';
 import { Task } from '../Models/Task.js';
 import style from '../Styles/DashBoard.module.css'
 
@@ -216,17 +216,19 @@ function AddProject() {
 function AddTask({ projectId }) {
   const [title, setTitle] = useState('');
   const [status, setStatus] = useState('To Do');
+  const [deadline, setDeadline] = useState('');
   const [isRunning, setIsRunning] = useState(false);
   const { triggerRefresh } = UseProjectContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsRunning(true);
-    const taskData = { title, projectId, status };
+    const taskData = { title, projectId, status, deadline };
     await CreateTask(taskData);
     triggerRefresh();
     setTitle('');
     setStatus('To Do');
+    setDeadline('');
     setIsRunning(false);
   };
 
@@ -234,6 +236,7 @@ function AddTask({ projectId }) {
     <form className={style.taskForm} onSubmit={handleSubmit}>
       <Title title={title} setTitle={setTitle} />
       <SelectTaskStatus status={status} setStatus={setStatus} />
+      <Deadline deadline={deadline} setDeadline={setDeadline} />
       <button className={style.primaryButton} type="submit" disabled={isRunning}>
         {isRunning ? 'Adding task' : 'Add Task'}
       </button>
@@ -252,7 +255,7 @@ function DisplayTask({ projectId }) {
         const data = await getTasks(projectId);
         if (data) {
           const mapped = data.map(
-            (item) => new Task(item.title, item.status, item.projectId, item._id)
+            (item) => new Task(item.title, item.status, item.projectId, item._id, formatDeadline(item.deadline))
           );
           setTasks(mapped);
         }
@@ -283,9 +286,11 @@ function DisplayTask({ projectId }) {
         {tasks.map((task) => (
           <div className={style.taskItem} key={task.id}>
             <h3>{task.title}</h3>
+            <p className={style.taskDeadline}>{task.deadline ? `Deadline: ${task.deadline}` : 'No deadline'}</p>
             <SelectTaskStatus status={task.status} />
             <div className={style.taskActions}>
               <EditTask task={task} />
+              
               <button className={style.textButton} onClick={() => handleDelete(task.id)}>Delete</button>
             </div>
           </div>
@@ -299,6 +304,7 @@ function EditTask({ task }) {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [status, setStatus] = useState(task.status);
+  const [deadline, setDeadline] = useState(task.deadline || '');
   const [isRunning, setIsRunning] = useState(false);
   const { triggerRefresh } = UseProjectContext();
 
@@ -308,7 +314,7 @@ function EditTask({ task }) {
 
     setIsRunning(true);
     try {
-      await PutTask({ taskId: task.id, title: title.trim(), status });
+      await PutTask({ taskId: task.id, title: title.trim(), status, deadline });
       setIsEditing(false);
       triggerRefresh();
     } catch (error) {
@@ -326,10 +332,15 @@ function EditTask({ task }) {
     <form className={`${style.inlineForm} ${style.editTaskForm}`} onSubmit={handleSubmit}>
       <Title title={title} setTitle={setTitle} />
       <SelectTaskStatus status={status} setStatus={setStatus} />
+      <Deadline deadline={deadline} setDeadline={setDeadline} />
       <button className={style.primaryButton} type="submit" disabled={isRunning}>{isRunning ? 'Saving...' : 'Save task'}</button>
       <button className={style.secondaryButton} type="button" onClick={() => setIsEditing(false)} disabled={isRunning}>Cancel</button>
     </form>
   );
+}
+
+function formatDeadline(deadline) {
+  return deadline ? String(deadline).slice(0, 10) : '';
 }
 
 export { DisplayProjects, Header, AddProject, ProjectProvider, UseProjectContext };

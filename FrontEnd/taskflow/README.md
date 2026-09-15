@@ -1,4 +1,21 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# TaskFlow Public Website
+
+TaskFlow is a project and task management workspace for people who want a clear view of what needs to happen next. It keeps project context, tasks, and progress together so teams spend less time searching through scattered updates and more time completing meaningful work.
+
+The public landing page explains the product purpose, shows the core workflow, and sends visitors to the existing AdminCMS login and signup routes.
+
+## Structure
+
+- `app/page.js`: Server-rendered landing page and public navigation.
+- `app/layout.js`: Root layout and SEO metadata.
+- `app/globals.css`: Responsive visual system shared by the landing page.
+- `src/lib/site-content.js`: Reusable workflow content for the landing page.
+
+## Why TaskFlow
+
+TaskFlow helps users manage projects by giving each project a clear home, breaking larger goals into actionable tasks, and making progress visible. This creates a simple rhythm: shape the work, choose the next step, and see the project pulse.
+
+## Getting Started
 
 ## Getting Started
 

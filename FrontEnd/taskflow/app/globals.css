@@ -1,26 +1,50 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+:root { --forest: #18332d; --forest-soft: #2b5144; --paper: #f4f1eb; --paper-light: #fffdf9; --muted: #71817a; --amber: #d99935; --gold: #f0c36a; --line: rgba(24, 51, 45, 0.12); }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: var(--forest); background: var(--paper); font-family: Georgia, "Times New Roman", serif; }
+a { color: inherit; }
+.siteShell { min-height: 100vh; overflow: hidden; background: radial-gradient(circle at 93% 5%, rgba(240, 195, 106, 0.3), transparent 23%), var(--paper); }
+.siteHeader { display: flex; align-items: center; gap: 44px; max-width: 1240px; margin: auto; padding: 24px 34px; border-bottom: 1px solid var(--line); }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--forest); font-size: 1.2rem; text-decoration: none; }
+.brand span, .miniMark, .visualBadge { display: grid; place-items: center; color: #fffaf0; background: var(--forest); font: 700 .72rem/1 "Trebuchet MS", sans-serif; letter-spacing: .08em; }
+.brand span { width: 30px; height: 30px; border-radius: 9px 9px 9px 2px; }
+.siteNav { display: flex; align-items: center; gap: 28px; margin-left: auto; font: 600 .76rem "Trebuchet MS", sans-serif; }.siteNav a { color: var(--muted); text-decoration: none; }.siteNav a:hover, .textLink:hover { color: var(--amber); }.navButton { padding: 10px 15px; border: 1px solid var(--line); border-radius: 999px; color: var(--forest) !important; background: rgba(255, 253, 249, .6); }.navButton span { margin-left: 8px; color: var(--amber); }
+.hero { display: grid; grid-template-columns: minmax(0, .9fr) minmax(420px, .85fr); gap: clamp(50px, 8vw, 130px); align-items: center; max-width: 1240px; margin: auto; padding: 104px 34px 124px; }.heroCopy { max-width: 560px; }.eyebrow, .cardLabel { margin: 0 0 15px; color: #bc7d20; font: 700 .68rem/1.2 "Trebuchet MS", sans-serif; letter-spacing: .17em; text-transform: uppercase; } h1, h2, h3, p { margin-top: 0; } h1 { margin-bottom: 0; font-size: clamp(3.8rem, 7vw, 6.7rem); font-weight: 400; line-height: .9; letter-spacing: -.065em; } em { color: #b45142; font-style: normal; }.heroText { max-width: 440px; margin: 29px 0 0; color: var(--muted); font-size: 1.03rem; line-height: 1.65; }.heroActions { display: flex; align-items: center; gap: 25px; margin-top: 34px; }.primaryButton { display: inline-flex; align-items: center; gap: 20px; padding: 14px 18px; border-radius: 9px; color: #fffaf0; background: var(--forest); font: 700 .76rem "Trebuchet MS", sans-serif; text-decoration: none; }.primaryButton span { color: var(--gold); font-size: 1rem; }.primaryButton:hover { background: var(--forest-soft); }.textLink { color: var(--muted); font: 600 .75rem "Trebuchet MS", sans-serif; text-decoration: none; }.textLink span { margin-left: 8px; color: var(--amber); }.heroNote { display: flex; align-items: center; gap: 8px; margin: 34px 0 0; color: #899790; font: .67rem "Trebuchet MS", sans-serif; }.statusDot { width: 7px; height: 7px; border-radius: 50%; background: #82a45b; }
+.heroVisual { min-height: 470px; padding: 22px; border: 1px solid rgba(24,51,45,.11); border-radius: 24px 24px 24px 5px; background: rgba(255, 253, 249, .7); box-shadow: 0 25px 65px rgba(37, 62, 54, .1); transform: rotate(1.5deg); }.visualTop, .visualHeading, .previewCardHead, .previewStats, .previewList div { display: flex; align-items: center; }.visualTop { gap: 9px; color: #91a09a; font: .61rem "Trebuchet MS", sans-serif; }.miniMark { width: 25px; height: 25px; border-radius: 7px 7px 7px 2px; font-size: .55rem; }.visualMenu { margin-left: auto; letter-spacing: .15em; }.visualHeading { justify-content: space-between; margin: 45px 10px 28px; }.visualHeading h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.3rem); font-weight: 400; line-height: .95; letter-spacing: -.06em; }.visualBadge { width: 56px; height: 56px; border-radius: 16px 16px 16px 4px; font-size: .82rem; }.previewCard, .previewList { padding: 22px; border: 1px solid rgba(24,51,45,.08); border-radius: 14px; background: #fffdf9; }.previewCardHead { justify-content: space-between; }.previewCardHead b, .previewCardHead small, .previewStats b, .previewStats small { display: block; }.previewCardHead b { font-size: .93rem; font-weight: 400; }.previewCardHead small { margin-top: 5px; color: #899790; font: .63rem "Trebuchet MS", sans-serif; }.previewCardHead strong { color: #bc7d20; font: 700 .63rem "Trebuchet MS", sans-serif; }.progressTrack { height: 7px; margin: 24px 0 20px; border-radius: 99px; background: #edf0eb; }.progressTrack span { display: block; width: 68%; height: 100%; border-radius: inherit; background: var(--amber); }.previewStats { justify-content: space-between; }.previewStats span { width: 33%; padding-left: 10px; border-left: 2px solid #d99935; }.previewStats b { font-size: 1.15rem; font-weight: 400; }.previewStats small { margin-top: 4px; color: #899790; font: .63rem "Trebuchet MS", sans-serif; }.previewList { margin-top: 14px; background: #f1f4ef; }.previewList .cardLabel { margin-bottom: 15px; }.previewList div { gap: 10px; padding: 11px 0; border-top: 1px solid #e0e7e0; color: var(--forest); font: .63rem "Trebuchet MS", sans-serif; }.previewList div small { margin-left: auto; color: #899790; }.check { color: #899790; font-size: 1.1rem; }.check.complete { color: #82a45b; }
+.methodSection { display: grid; grid-template-columns: minmax(260px, .8fr) 1.2fr; gap: 10%; max-width: 1240px; margin: auto; padding: 98px 34px 116px; border-top: 1px solid var(--line); }.sectionIntro h2, .workspaceSection h2 { margin: 0; font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 400; line-height: .94; letter-spacing: -.06em; }.sectionIntro > p:last-child { max-width: 300px; margin: 25px 0 0; color: var(--muted); font: .9rem/1.6 "Trebuchet MS", sans-serif; }.workflowGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }.workflowItem { padding-top: 15px; border-top: 2px solid var(--amber); }.workflowItem > span { color: var(--amber); font: 700 .67rem "Trebuchet MS", sans-serif; }.workflowItem h3 { margin: 42px 0 13px; font-size: 1.35rem; font-weight: 400; }.workflowItem p { color: var(--muted); font: .78rem/1.6 "Trebuchet MS", sans-serif; }
+.whySection { display: grid; grid-template-columns: minmax(260px, .8fr) 1.2fr; gap: 10%; max-width: 1240px; margin: auto; padding: 98px 34px 116px; border-top: 1px solid var(--line); background: rgba(255, 253, 249, .32); }.whyIntro h2 { margin: 0; font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 400; line-height: .94; letter-spacing: -.06em; }.whyCopy { max-width: 650px; color: var(--muted); font: .9rem/1.7 "Trebuchet MS", sans-serif; }.whyCopy p { margin-bottom: 18px; }.whyList { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 35px; }.whyList div { padding-top: 14px; border-top: 2px solid var(--amber); }.whyList strong, .whyList span { display: block; }.whyList strong { color: var(--forest); font: 400 1rem Georgia, "Times New Roman", serif; }.whyList span { margin-top: 8px; font-size: .7rem; line-height: 1.5; }
+.workspaceSection { display: flex; align-items: end; justify-content: space-between; max-width: 1240px; margin: 0 auto 100px; padding: 72px 48px; border-radius: 20px 20px 20px 4px; color: #fffaf0; background: var(--forest); }.workspaceSection .eyebrow { color: var(--gold); }.workspaceSection em { color: var(--gold); }.lightButton { color: var(--forest); background: var(--gold); }.lightButton:hover { background: #f6d58e; }.siteFooter { display: flex; align-items: center; gap: 32px; max-width: 1240px; margin: auto; padding: 25px 34px 32px; border-top: 1px solid var(--line); color: #899790; font: .63rem "Trebuchet MS", sans-serif; }.siteFooter p { margin: 0 auto 0 0; }
+@media (max-width: 800px) { .siteHeader { padding: 18px 20px; }.siteNav a:not(.navButton) { display: none; }.hero { grid-template-columns: 1fr; padding: 72px 20px 85px; }.heroVisual { max-width: 620px; width: 100%; margin: auto; }.methodSection, .whySection { grid-template-columns: 1fr; gap: 50px; padding: 70px 20px 85px; }.workflowGrid { gap: 14px; }.whyList { gap: 14px; }.workspaceSection { align-items: start; flex-direction: column; gap: 35px; margin: 0 20px 70px; padding: 42px 28px; }.siteFooter { flex-wrap: wrap; padding: 25px 20px; }.siteFooter p { width: 100%; order: 3; } }
+@media (max-width: 520px) { h1 { font-size: clamp(3.4rem, 17vw, 5rem); }.heroActions { align-items: start; flex-direction: column; gap: 18px; }.heroVisual { min-height: auto; padding: 16px; }.visualHeading { margin-top: 32px; }.workflowGrid { grid-template-columns: 1fr; gap: 35px; }.workflowItem h3 { margin-top: 20px; } }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+.teamSection { display: grid; grid-template-columns: minmax(260px, .78fr) 1.22fr; gap: clamp(45px, 8vw, 105px); max-width: 1240px; margin: auto; padding: 98px 34px 116px; border-top: 1px solid var(--line); }
+.teamIntro h2 { margin: 0; font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 400; line-height: .94; letter-spacing: -.06em; }
+.teamIntro > p:not(.eyebrow) { max-width: 410px; margin: 25px 0 0; color: var(--muted); font: .9rem/1.7 "Trebuchet MS", sans-serif; }
+.teamFeatureList { display: grid; gap: 17px; margin-top: 34px; }
+.teamFeatureList div { padding-top: 13px; border-top: 2px solid var(--amber); }
+.teamFeatureList strong, .teamFeatureList span { display: block; }
+.teamFeatureList strong { font: 400 1rem Georgia, "Times New Roman", serif; }
+.teamFeatureList span { max-width: 330px; margin-top: 5px; color: var(--muted); font: .7rem/1.5 "Trebuchet MS", sans-serif; }
+.teamBoard { align-self: center; padding: 25px; border: 1px solid rgba(24,51,45,.11); border-radius: 20px 20px 20px 5px; background: #fffdf9; box-shadow: 0 22px 50px rgba(37, 62, 54, .08); }
+.teamBoardTop, .boardFooter { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.teamBoardTop h3 { margin: 0; font-size: 1.55rem; font-weight: 400; }
+.teamBoardTop .cardLabel { margin-bottom: 8px; }
+.teamMemberStack { display: flex; padding-right: 4px; }
+.teamMemberStack i { display: grid; width: 30px; height: 30px; margin-left: -5px; place-items: center; border: 2px solid #fffdf9; border-radius: 50%; color: #fffaf0; background: var(--forest-soft); font: 700 .54rem "Trebuchet MS", sans-serif; font-style: normal; }
+.teamMemberStack i:nth-child(2) { background: #b45142; }.teamMemberStack i:nth-child(3) { background: var(--amber); }
+.boardColumns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 28px; }
+.boardColumns > div { min-width: 0; padding: 11px; border-radius: 10px; background: #f1f4ef; }
+.columnLabel { display: flex; align-items: center; justify-content: space-between; margin: 0 0 10px; color: var(--muted); font: 700 .61rem "Trebuchet MS", sans-serif; text-transform: uppercase; }
+.columnLabel span { display: grid; width: 18px; height: 18px; place-items: center; border-radius: 50%; color: var(--forest); background: #dfe7df; font-size: .55rem; }
+.boardColumns article { margin-top: 8px; padding: 11px 9px; border: 1px solid rgba(24,51,45,.08); border-radius: 8px; background: #fffdf9; }
+.boardColumns article b, .boardColumns article small { display: block; }
+.boardColumns article b { font: 400 .72rem/1.25 Georgia, "Times New Roman", serif; }.boardColumns article small { margin-top: 8px; color: #899790; font: .56rem "Trebuchet MS", sans-serif; }
+.boardColumns .activeTask { border-left: 3px solid var(--amber); }.boardColumns .doneTask { opacity: .7; }
+.boardFooter { margin-top: 18px; padding-top: 17px; border-top: 1px solid var(--line); }
+.boardFooter span b, .boardFooter span small { display: block; }.boardFooter span b { font: 400 .8rem Georgia, "Times New Roman", serif; }.boardFooter span small { margin-top: 4px; color: #899790; font: .6rem "Trebuchet MS", sans-serif; }
+.miniProgress { flex: 1; max-width: 150px; height: 6px; border-radius: 99px; background: #edf0eb; }.miniProgress i { display: block; width: 68%; height: 100%; border-radius: inherit; background: var(--amber); }.boardFooter > strong { color: #6e8c55; font: 700 .62rem "Trebuchet MS", sans-serif; }
+.workspaceText { max-width: 380px; margin: 18px 0 0; color: rgba(255,250,240,.7); font: .82rem/1.6 "Trebuchet MS", sans-serif; }
+@media (max-width: 800px) { .teamSection { grid-template-columns: 1fr; gap: 50px; padding: 70px 20px 85px; }.teamBoard { width: 100%; } }
+@media (max-width: 520px) { .teamBoard { padding: 18px; }.boardColumns { grid-template-columns: 1fr; }.boardColumns > div { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }.boardColumns .columnLabel { grid-column: 1 / -1; margin-bottom: 0; }.boardColumns article { margin-top: 0; }.boardFooter { align-items: end; flex-wrap: wrap; }.miniProgress { order: 3; flex-basis: 100%; max-width: none; } }

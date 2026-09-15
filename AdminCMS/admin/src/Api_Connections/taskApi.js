@@ -59,7 +59,7 @@ async function DeleteTask(taskId) {
   }
 }
 
-async function PutTask({ title,taskId,status }) {
+async function PutTask({ title,taskId,status ,deadline }) {
       try {
     const response = await axios.put(
   `http://localhost:8000/task/${taskId}`, { title, status }, {

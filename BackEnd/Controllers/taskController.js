@@ -37,24 +37,25 @@ const tasks = await Task.find({projectId:id})
 
 const postTask = asyncHandler(async (req, res) => {
   
-   const{title ,projectId ,status} = req.body;
+   const{title ,projectId ,status ,deadline} = req.body;
   
    if (   !title || !projectId || !status) {
     res.status(400);
     throw new Error("Missing body");
   }
-  const createTask =await Task.create({title,projectId,status})
+  const createTask = await Task.create({ title, projectId, status, deadline: deadline || null });
   res.status(200).json(createTask);
 });
 
 const putTask = asyncHandler(async (req, res) => {
   const id = req.params.id;
-  const { title, status } = req.body;
+  const { title, status,deadline } = req.body;
 
   
   const updateData = {};
   if (title) updateData.title = title;
   if (status) updateData.status = status;
+  if (deadline !== undefined) updateData.deadline = deadline || null;
 
   const task = await Task.findByIdAndUpdate(id, updateData, { new: true });
 
@@ -67,7 +68,7 @@ const putTask = asyncHandler(async (req, res) => {
 });
 
 const deleteTask = asyncHandler(async (req, res) => {
-  const id = req.params.id;
+  const id = req.params.id; //task id
 
   const task = await Task.findByIdAndDelete(id);
 

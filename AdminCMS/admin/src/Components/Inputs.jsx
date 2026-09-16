@@ -214,6 +214,29 @@ function Deadline({ deadline, setDeadline }) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
 
 function validateDeadline(value) {
@@ -241,10 +264,6 @@ function validateDeadline(value) {
 
   return { valid: true, message: "Valid deadline" };
 }
-
-
-
-
 
   function validateEmail(value) {
   const result = inputCheck(value, 'Email');

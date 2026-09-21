@@ -8,7 +8,7 @@ const uservalidator =require("../Validator/uservalidator")
 
 router.route("/current").get(user.CurrentUser)
 router.route("/register").post(uservalidator , user.Register)
-router.route("/login").post(user.Login)
+router.route("/login").post(uservalidator,user.Login)
 
 
 

@@ -23,7 +23,7 @@ const run =async()=>{
      await app.listen(PORT,()=> {
       console.log(`Server running on http://localhost:${PORT}`);
 })
-      else console.log("erro bro")
+      else console.log("connection  error invalid Server ")
 }
 run();
 

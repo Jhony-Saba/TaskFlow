@@ -8,12 +8,12 @@ if(authHeader && authHeader.startsWith('Bearer ')){
 
 token=authHeader.split(" ")[1];
 jwt.verify(token,process.env.ASSECC_TOKEN_SECRET,(err,decode)=>{
-
-    if(err){
+    
+  if(err){
         res.status(401);
         throw new  Error("User is not authorised")
      } 
-     console.log(decode);
+    //  console.log(decode);
     req.user = decode;
       next();
 

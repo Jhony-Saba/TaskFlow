@@ -3,6 +3,7 @@ const {validationResult, check } = require('express-validator');
 // Single middleware function
 const userValidator = [
   check('username')
+    .optional()
     .isString().withMessage('Name must be a string')
     .isLength({ min: 6 }).withMessage('Name must be at least 6 characters')
     .notEmpty().withMessage('Empty user name')
@@ -13,6 +14,7 @@ const userValidator = [
  .notEmpty()
  .trim()
  .isEmail().withMessage('Invalid email format'),
+ 
  check('password')
  .notEmpty().withMessage('password Empty password')
  .isString()
@@ -24,7 +26,7 @@ const userValidator = [
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    next(); // ✅ continue if no errors
+    next(); 
   }
 ];
 

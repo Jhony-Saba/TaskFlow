@@ -1,6 +1,10 @@
 const errorHandler = (err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err);
+  }
+
   // Use the response status if set, otherwise default to 500
-  const statusCode = res.statusCode ? res.statusCode : 500;
+  const statusCode = res.statusCode || 500;
 
   switch (statusCode) {
     case 400:

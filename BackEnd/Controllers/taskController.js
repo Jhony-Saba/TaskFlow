@@ -30,7 +30,7 @@ const getPercentageOfTasks = asyncHandler(async(req,res)=>{
 const getTask = asyncHandler(async (req, res) => {
  
   const id = req.params.id;
-const tasks = await Task.find({projectId:id})
+  const tasks = await Task.find({projectId:id})
   res.status(200).json(tasks);
   
 });
@@ -44,7 +44,7 @@ const postTask = asyncHandler(async (req, res) => {
     throw new Error("Missing body");
   }
   const createTask = await Task.create({ title, projectId, status, deadline: deadline || null });
-  res.status(200).json(createTask);
+  res.status(200).json({message:"Task was created "},createTask);
 });
 
 const putTask = asyncHandler(async (req, res) => {

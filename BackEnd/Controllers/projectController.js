@@ -66,20 +66,33 @@ const putProject = asyncHandler(async (req, res) => {
 });
 
 const deleteProject = asyncHandler(async (req, res) => {
-	const {user}=req.user;
-	const projectId = req.params.id;
-	const project = await Project.findById(projectId).deleteOne({ userId: user.userid });
-	const task =await Task.find({projectId:projectId}).deleteMany({projectId:projectId});
-	if (!project) {
-		res.status(404);
-		throw new Error('Project not found');
-	}
-	if(!task){
-		res.status(404);
-		throw new Error('Tasks not found it');
-	}
 
-	res.status(200).json({ message: 'Project deleted successfully' });
+	const {user}=req.user;
+
+	if (!req.params.id){
+		res.status(400);
+	   throw new Error('Project Id is required');
+	  
+	}
+	const projectId = req.params.id;
+	
+	  try {
+    // Try deleting the project
+    const project = await Project.deleteOne({ _id: projectId, userId: user.userid });
+
+    if (project.deletedCount === 0) {
+      // Project not found → skip tasks deletion
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    // If project exists, delete tasks
+    await Task.deleteMany({ projectId });
+
+    return res.status(200).json({ message: 'Project deleted successfully' });
+
+  } catch (error) {
+    return res.status(500).json({ message: 'Server error while deleting project' });
+  }
 });
 
 module.exports = {

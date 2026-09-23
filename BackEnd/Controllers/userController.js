@@ -71,7 +71,8 @@ Tokenaccess= await jwt.sign({user : {
 req.user= user.encode;
 res.status(200).json({Tokenaccess})
 
-}else{res.send(500);
+}else{
+  res.status(500);
   throw new Error ("User creation failed" )
 }
 });
@@ -114,7 +115,8 @@ res.status(200).json({Tokenaccess})
   }else{res.status(400)
         throw new Error("Incorrect  password");     
   }
-}else{res.send(400);
+}else{
+  res.status(400);
   throw new Error ("User not found")
 }
 
